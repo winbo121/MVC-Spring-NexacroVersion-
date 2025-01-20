@@ -75,7 +75,7 @@
     
     <select id="selectOrdList" parameterType="java.util.Map" resultType="java.util.Map">
             SELECT ORD.ORD_NO                             AS ORD_NO
-     			 , FN_CODE_NM('001',ORD.ORD_STAT_CD)      AS ORD_STAT_NM
+     			 , MST.CD_NM1      						  AS ORD_STAT_NM
      			 , ORD.CUST_CD                            AS CUST_NO
      			 , CUST.CUST_NM                           AS CUST_NM
      			 , CUST.CUST_GBCD                         AS CUST_GBCD_NM
@@ -86,6 +86,7 @@
   			 FROM TB_ORD ORD
   			 LEFT JOIN TB_CUST CUST ON ORD.CUST_CD = CUST.CUST_CD
   			 LEFT JOIN TB_ITEM ITEM ON ORD.ITEM_CD = ITEM.ITEM_CD
+  			 INNER JOIN TB_CD_MST MST ON ORD.ORD_STAT_CD = MST.CD_VAL1 AND MST.CD_VAL = '001'
   			 WHERE 1=1
   			 <if test="ORD_NO != null and ORD_NO !=''">
                AND ORD.ORD_NO = #{ORD_NO}
