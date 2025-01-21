@@ -100,7 +100,7 @@ this.OB_001_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	//ds_searchCombo 데이터셋을 생성하고 서버로 전달한 인자값을 추가해보자.
 	this.ds_searchCombo.clearData(); // 데이터셋 초기화
 	this.ds_searchCombo.addRow();    // 데이터셋에 값을 세팅하기 위해 1줄의 ROW를 추가
-	this.ds_searchCombo.setColumn(0,"CD_VAL","001"); // 추가된 0번쨰 ROW의 CD_VAL 컬럼에 001이라는 값을 세팅한다.
+	this.ds_searchCombo.setColumn(0,"CD_VAL","001"); // 추가된 0번쨰 ROW의 CD_VAL 컬럼에 001이라는 값을 세팅한다!!.
 	
 	//서버로 데이터를 전송한다.
 	//서버로 데이터를 전송하기 전 필요한 값들을 세팅한다.
