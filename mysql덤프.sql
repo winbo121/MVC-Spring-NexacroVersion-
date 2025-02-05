@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: localhost    Database: home
 -- ------------------------------------------------------
@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `code_tb`;
 CREATE TABLE `code_tb` (
   `code` varchar(100) DEFAULT NULL,
   `value` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `tb_cd_mst` (
   `REG_DT` date DEFAULT NULL,
   `UPD_DT` date DEFAULT NULL,
   PRIMARY KEY (`CD_VAL`,`CD_VAL1`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `tb_cust` (
   `REG_DT` date DEFAULT NULL,
   `UPD_DT` date DEFAULT NULL,
   PRIMARY KEY (`CUST_CD`)
-) ENGINE=InnoDB AUTO_INCREMENT=9;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `tb_item` (
   `REG_DT` date DEFAULT NULL,
   `UPD_DT` date DEFAULT NULL,
   PRIMARY KEY (`ITEM_CD`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `tb_ord` (
   `REG_DT` date DEFAULT NULL,
   `UPD_DT` date DEFAULT NULL,
   PRIMARY KEY (`ORD_NO`)
-) ENGINE=InnoDB AUTO_INCREMENT=22;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `tb_ord` (
 
 LOCK TABLES `tb_ord` WRITE;
 /*!40000 ALTER TABLE `tb_ord` DISABLE KEYS */;
-INSERT INTO `tb_ord` VALUES (1,'A0001','1','B','2025-01-15','2025-01-15'),(2,'A0002','2','B','2025-01-15','2025-01-15'),(3,'A0003','1','B','2025-01-15','2025-01-15'),(4,'A0004','2','D','2025-01-15','2025-01-15'),(5,'A0005','2','D','2025-01-15','2025-01-15'),(6,'A0001','1','D','2025-01-15','2025-01-15'),(7,'A0001','3','D','2025-01-15','2025-01-15'),(8,'A0002','3','D','2025-01-15','2025-01-15'),(9,'A0002','4','D','2025-01-15','2025-01-15'),(10,'A0003','4','D','2025-01-15','2025-01-15'),(11,'A0001','5','D','2025-01-15','2025-01-15'),(12,'A0003','2','D','2025-01-15','2025-01-15'),(13,'A0003','2','D','2025-01-15','2025-01-15'),(14,'A0004','4','D','2025-01-15','2025-01-15'),(15,'A0004','3','D','2025-01-15','2025-01-15'),(16,'A0003','1','D','2025-01-15','2025-01-15'),(17,'A0003','4','D','2025-01-15','2025-01-15'),(18,'A0005','5','E','2025-01-15','2025-01-15'),(19,'A0004','6','E','2025-01-15','2025-01-15'),(20,'A0002','7','E','2025-01-15','2025-01-15'),(21,'A0001','1','E','2025-01-15','2025-01-15');
+INSERT INTO `tb_ord` VALUES (1,'A0001','1','B','2025-01-15','2025-01-15'),(4,'A0004','2','D','2025-01-15','2025-01-15'),(5,'A0005','2','D','2025-01-15','2025-01-15'),(6,'A0001','1','D','2025-01-15','2025-01-15'),(7,'A0001','3','D','2025-01-15','2025-01-15'),(8,'A0002','3','D','2025-01-15','2025-01-15'),(9,'A0002','4','D','2025-01-15','2025-01-15'),(10,'A0003','4','D','2025-01-15','2025-01-15'),(11,'A0001','5','D','2025-01-15','2025-01-15'),(12,'A0003','2','D','2025-01-15','2025-01-15'),(13,'A0003','2','D','2025-01-15','2025-01-15'),(14,'A0004','4','D','2025-01-15','2025-01-15'),(15,'A0004','3','D','2025-01-15','2025-01-15'),(16,'A0003','1','D','2025-01-15','2025-01-15'),(17,'A0003','4','D','2025-01-15','2025-01-15'),(18,'A0005','5','E','2025-01-15','2025-01-15'),(19,'A0004','6','E','2025-01-15','2025-01-15'),(20,'A0002','7','E','2025-01-15','2025-01-15'),(21,'A0001','1','E','2025-01-15','2025-01-15');
 /*!40000 ALTER TABLE `tb_ord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `tb_user` (
   `REG_DT` date DEFAULT NULL,
   `UPD_DT` date DEFAULT NULL,
   PRIMARY KEY (`LOGIN_ID`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +193,7 @@ CREATE TABLE `tbl_board` (
   `communityId` varchar(16) DEFAULT NULL,
   `hitCount` int DEFAULT NULL,
   PRIMARY KEY (`postId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `tbl_user` (
   `deptId` varchar(20) DEFAULT NULL,
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,83 +245,6 @@ LOCK TABLES `tbl_user` WRITE;
 INSERT INTO `tbl_user` VALUES ('hong','홍길동','hong gil dong','02-2140-7700','02-2140-7700','010-1111-2222','투비소프트','과장','개발','Y','02-2140-7798','223232','서울시 강남구 봉은사로','223232','서울시 강남구 봉은사로','hong@tobesoft.com','DEPT-001','1111');
 /*!40000 ALTER TABLE `tbl_user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'home'
---
-/*!50003 DROP FUNCTION IF EXISTS `FN_CODE_NM` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `FN_CODE_NM`(V_CD VARCHAR(50), V_CD2 VARCHAR(50) ) RETURNS varchar(100) CHARSET utf8mb4
-begin
-	
-	declare V_NM VARCHAR(100);
-	
-	SELECT CD_NM1 INTO V_NM 
-	  FROM TB_CD_MST
-	 WHERE CD_VAL = V_CD
-	   AND CD_VAL1 = V_CD2;
-	   
-	RETURN V_NM; 
-end ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `PR_ITEM_MERGE` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PR_ITEM_MERGE`(
-	IN IV_ITEM_CD VARCHAR(50),
-	IN IV_ITEM_NM varchar(20),
-	OUT OV_REG_DT date 
-)
-BEGIN
-	declare	V_CNT INTEGER;
-	declare V_REG_DT DATE;
-
-	SELECT COUNT(*) INTO V_CNT
-	  FROM TB_ITEM 
-	 WHERE ITEM_CD = IV_ITEM_CD;
-	
-	IF V_CNT = 0 THEN
-		INSERT INTO TB_ITEM(ITEM_CD, ITEM_NM, REG_DT, UPD_DT)
-		VALUES(IV_ITEM_CD, IV_ITEM_NM, SYSDATE, SYSDATE);
-	ELSE
-		UPDATE TB_ITEM 
-		   SET ITEM_NM = IV_ITEM_NM
-		   ,   UPD_DT = SYSDATE 
-		  WHERE ITEM_CD = IV_ITEM_CD;
-	END IF;
-
-	SELECT REG_DT INTO V_REG_DT
-	  FROM TB_ITEM 
-	 WHERE ITEM_CD = IV_ITEM_CD;
-	
-	set OV_REG_DT = V_REG_DT;
-	COMMIT;
-
-end ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -332,4 +255,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-17 16:32:57
+-- Dump completed on 2025-01-21 13:44:43
