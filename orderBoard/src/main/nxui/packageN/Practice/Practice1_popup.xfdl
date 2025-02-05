@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Practice1_popup" width="390" height="360" onload="Practice1_popup_onload" titletext="연습1 팝업">
+  <Form id="Practice1_popup" width="390" height="360" onload="Practice1_popup_onload" titletext="연습1 팝업 (입력)">
     <Layouts>
       <Layout height="360" width="390">
         <Static id="sta01_01" taborder="0" text="고객명" left="-1" top="35" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>

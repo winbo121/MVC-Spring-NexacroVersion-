@@ -10,7 +10,7 @@
         this.on_create = function()
         {
             this.set_name("Practice1");
-            this.set_titletext("연습 1");
+            this.set_titletext("연습 1 (리스트)");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -105,11 +105,7 @@
         // User Script
         this.registerScript("Practice1.xfdl", function() {
 
-        this.sta00_onclick = function(obj,e)
-        {
-
-        };
-
+        //화면로드 될시
         this.Practice1_onload = function(obj,e)
         {
         	this.setParam_searchCombo.clearData();
@@ -131,27 +127,8 @@
         						 callBackFnc);
         };
 
-        this.fnCallback = function(svcID, errorCode, errorMsg){
 
-        	if(errorCode < 0){
-        		alert("작업 실패 에러 코드 : " + errorCode);
-        		return 0;
-        	}
-
-        	switch(svcID)
-        	{
-        		case "selectCommonCode":
-        			this.getParam_searchCombo.insertRow(0);
-        			this.getParam_searchCombo.setColumn(0,"CD_VAL1","");
-        			this.getParam_searchCombo.setColumn(0,"CD_NM1","전체");
-        			break;
-
-        		case "deleteOrdList":
-        			alert("삭제 완료");
-        			break;
-        	}
-
-        }
+        //조회버튼 클릭시
         this.practice_search_onclick = function(obj,e)
         {
         	this.setParam_searchList.clearData();
@@ -175,6 +152,8 @@
         						 callBackFnc);
         };
 
+
+        //주문조회 팝업
         this.btn00_onclick = function(obj,e)
         {
         	var oArg = {};//팝업을 열 때 부모창에서 가져갈 데이터가 있데면 데이터 세팅
@@ -185,6 +164,43 @@
         	this.gfnOpenPopup( "popup","Practice::Practice1_popup.xfdl",oArg,sPopupCallBack,oOption);//팝업으로 띄울 화면 지정 후 팝업 open
         };
 
+
+        //리스트중에서 하나 더블클릭할시 상세 조회 팝업
+        this.detailView = function(){
+
+        	//alert("주문 수정 팝업 오픈");
+        	//그리드에서 현재 선택된 ROW의 ORD_NO 주문번호를 가져온다.
+        	var ordNo = this.getParam_searchList.getColumn(this.getParam_searchList.rowposition,"ORD_NO");
+
+        	var oArg = {ordNo:ordNo};
+        	var oOption = {};
+        	var sPopupCallBack = "fnPopupCallback";
+        	this.gfnOpenPopup( "popup","Practice::Practice1_popupDetail.xfdl",oArg,sPopupCallBack,oOption);
+
+        }
+
+
+        /**************************************************************************************************
+        * CallBack Function (서버수신)
+        ***************************************************************************************************/
+        this.fnCallback = function(svcID, errorCode, errorMsg){
+
+        	if(errorCode < 0){
+        		alert("작업 실패 에러 코드 : " + errorCode);
+        		return 0;
+        	}
+
+        	switch(svcID)
+        	{
+        		case "selectCommonCode":
+        			this.getParam_searchCombo.insertRow(0);
+        			this.getParam_searchCombo.setColumn(0,"CD_VAL1","");
+        			this.getParam_searchCombo.setColumn(0,"CD_NM1","전체");
+        			break;
+
+        	}
+
+        }
         });
         
         // Regist UI Components Event
@@ -193,6 +209,7 @@
             this.addEventHandler("onload",this.Practice1_onload,this);
             this.sta00.addEventHandler("onclick",this.sta00_onclick,this);
             this.practice_search.addEventHandler("onclick",this.practice_search_onclick,this);
+            this.grd00.addEventHandler("oncelldblclick",this.detailView,this);
             this.btn00.addEventHandler("onclick",this.btn00_onclick,this);
         };
         this.loadIncludeScript("Practice1.xfdl");

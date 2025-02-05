@@ -46,4 +46,6 @@ public interface UidapterBoardService {
 	void update_datalist_map(List<Map<String, Object>> boardList);
 	
 	int selectUserCount();
+	
+	Map<String,Object> selectOrdListDetail(Map<String, Object> ord_no);
 }

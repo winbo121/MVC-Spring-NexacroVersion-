@@ -153,4 +153,10 @@ public class UidapterBoardServiceImpl implements UidapterBoardService {
 		
 		return mapper.selectUserCount();
 	}
+
+	@Override
+	public Map<String, Object> selectOrdListDetail(Map<String, Object> ord_no) {
+		UiadapterBoardMapper mapper = sqlSession.getMapper(UiadapterBoardMapper.class);
+		return mapper.selectOrdListDetail(ord_no);
+	}
 }

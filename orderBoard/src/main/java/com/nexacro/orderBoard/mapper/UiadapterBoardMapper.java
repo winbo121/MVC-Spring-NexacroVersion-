@@ -61,4 +61,6 @@ public interface UiadapterBoardMapper {
 	public void delete_board_map(Map<String, Object> board);
 	
 	public int selectUserCount();
+	
+	public Map<String,Object> selectOrdListDetail(Map<String, Object> ord_no);
 }

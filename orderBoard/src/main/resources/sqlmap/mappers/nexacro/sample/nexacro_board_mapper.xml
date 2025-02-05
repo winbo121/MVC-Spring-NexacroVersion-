@@ -101,6 +101,27 @@
             </if>
     </select>
     
+    
+    <select id="selectOrdListDetail" parameterType="java.util.Map" resultType="java.util.Map">
+            SELECT ORD.ORD_NO                             AS ORD_NO
+     			 , MST.CD_NM1      						  AS ORD_STAT_NM
+     			 , ORD.CUST_CD                            AS CUST_NO
+     			 , CUST.CUST_NM                           AS CUST_NM
+     			 , CUST.CUST_GBCD                         AS CUST_GBCD_NM
+     			 , CUST.PHONE                             AS PHONE
+     			 , CUST.ADDR                              AS ADDR
+     			 , CUST.BIRTHBISNO						  AS BIR_BIZ_NO
+     			 , ITEM.ITEM_CD                           AS ITEM_NM
+     			 , ORD.REG_DT                             AS REG_DT
+  			 FROM TB_ORD ORD
+  			 LEFT JOIN TB_CUST CUST ON ORD.CUST_CD = CUST.CUST_CD
+  			 LEFT JOIN TB_ITEM ITEM ON ORD.ITEM_CD = ITEM.ITEM_CD
+  			 INNER JOIN TB_CD_MST MST ON ORD.ORD_STAT_CD = MST.CD_VAL1 AND MST.CD_VAL = '001'
+  			 WHERE 1=1  			 
+             AND ORD.ORD_NO = #{ORD_NO}           
+    </select>
+    
+    
     <select id="selectCommonCode" parameterType="java.util.Map" resultType="java.util.Map">
             SELECT CD_VAL1
      			 , CD_NM1

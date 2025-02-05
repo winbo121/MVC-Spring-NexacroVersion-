@@ -109,6 +109,19 @@ public class UidapterBoardController {
 		
 	}
 	
+	@RequestMapping(value = "/orderBoard/selectOrdListDetail.do")
+	public NexacroResult selectOrdListDetail(@ParamDataSet(name = "setParam_detail") Map<String,Object> ord_no) throws NexacroException {
+		 
+		NexacroResult result = new NexacroResult(); // return 값을 세팅하기 위한 객체 생성
+		Map<String,Object> ord_cd_map = new HashMap<String,Object>(); //return 값 ds_ordStatCombo 객체 생성
+		
+		ord_cd_map = uidapterSampleService.selectOrdListDetail(ord_no); // 요청 처리를 Service로 이관
+																		   // Service로 부터 받아온 결과 값을 ds_commonCode에 삽입
+		result.addDataSet("ord_cd_map", ord_cd_map);// return 값 세팅
+		return result; //회신
+		
+	}
+	
 	@RequestMapping(value = "/orderBoard/selectCommonCode.do")
 	public NexacroResult selectCommonCode(@ParamDataSet(name = "ds_search") Map<String,Object> ds_search) throws NexacroException {
 		 
