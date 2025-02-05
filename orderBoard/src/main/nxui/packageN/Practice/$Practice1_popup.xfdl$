@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Practice1_popup" width="390" height="360" onload="Practice1_popup_onload" titletext="연습1 팝업">
+    <Layouts>
+      <Layout height="360" width="390">
+        <Static id="sta01_01" taborder="0" text="고객명" left="-1" top="35" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
+        <Static id="sta01_01_00" taborder="1" text="휴대폰번호" left="-1" top="76" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
+        <Static id="sta01_01_00_00" taborder="2" text="생년월일/사업자번호" left="-1" top="117" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
+        <Static id="sta01_01_00_00_00" taborder="3" text="주소" left="-1" top="158" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
+        <Static id="sta01_00_00" taborder="4" left="24" top="199" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;" text="고객구분"/>
+        <Static id="sta01_00_00_00" taborder="5" text="주문상품" left="24" top="240" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
+        <Button id="btn00" taborder="6" text="등록" left="36" top="291" width="108" height="39" onclick="btn00_onclick"/>
+        <Button id="btn00_00" taborder="7" text="취소" left="242" top="290" width="108" height="39" onclick="btn00_00_onclick"/>
+        <Edit id="ordNo" taborder="8" left="155" top="35" width="210" height="30"/>
+        <Edit id="phone" taborder="9" left="155" top="78" width="210" height="30"/>
+        <Edit id="birth" taborder="10" left="155" top="120" width="210" height="30"/>
+        <Edit id="addr" taborder="11" left="155" top="158" width="210" height="30"/>
+        <Combo id="custCd" taborder="12" left="155" top="199" width="210" height="31" displaynulltext="선택" innerdataset="getParam_searchCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1"/>
+        <Combo id="itemCd" taborder="13" text="" left="155" top="240" width="210" height="31" onitemchanged="cbo00_00_onitemchanged" displaynulltext="선택" innerdataset="getParam_searchItems" codecolumn="CD_VAL1" datacolumn="CD_NM1"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+
+this.Practice1_popup_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+
+	//고객구분					 
+	this.combo1();
+	
+	//고객상품
+	this.combo2();
+
+};
+
+this.combo1 = function(){
+
+	this.setParam_searchCombo.clearData();
+	this.setParam_searchCombo.addRow();
+	this.setParam_searchCombo.setColumn(0,"CD_VAL","002");
+	
+		
+	var strSvcId    = "selectCommonCode";                
+	var strSvcUrl   = "selectCommonCode.do";           
+	var inData      = "ds_search=setParam_searchCombo";       												                                               
+	var outData     = "getParam_searchCombo=ds_commonCode";  													
+	var strArg      = "";                               
+	var callBackFnc = "fnCallback"; 
+	                               
+	this.gfnTransaction( strSvcId  , 	
+						 strSvcUrl , 	
+						 inData  , 		
+						 outData , 		
+						 strArg  , 		
+						 callBackFnc); 	
+}
+
+this.combo2 = function(){
+	
+	var strSvcId = "selectItemList";
+	var strSvcUrl = "selectItemList.do";
+	var inData = ""; 
+	var outData = "getParam_searchItems=ds_itemCombo";
+	var strArg = "";                               
+	var callBackFnc = "fnCallback"; 
+	this.gfnTransaction( strSvcId  , 	
+						 strSvcUrl , 	
+						 inData  , 		
+						 outData , 		
+						 strArg  , 		
+						 callBackFnc); 	
+}
+
+
+this.btn00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.insert_ordList.clearData();
+	this.insert_ordList.addRow();
+	this.insert_ordList.setColumn(0,"CUST_NM",this.ordNo.value);
+	this.insert_ordList.setColumn(0,"PHONE",this.phone.value);
+	this.insert_ordList.setColumn(0,"BIR_BIZ_NO",this.birth.value);
+	this.insert_ordList.setColumn(0,"ADDR",this.addr.value);
+	this.insert_ordList.setColumn(0,"CUST_GBCD",this.custCd.value);
+	this.insert_ordList.setColumn(0,"ITEM_CD",this.itemCd.value);
+	
+	var strSvcId = "insertOrdList";
+	var strSvcUrl = "insertOrdList.do";
+	var inData = "ds_regOrd=insert_ordList"; 
+	var outData = "";
+	var strArg = "";                               
+	var callBackFnc = "fnCallback"; 
+	this.gfnTransaction( strSvcId  , 	
+						 strSvcUrl , 	
+						 inData  , 		
+						 outData , 		
+						 strArg  , 		
+						 callBackFnc); 	
+	
+};
+
+this.btn00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+/**************************************************************************************************
+* CallBack Function (서버수신)
+***************************************************************************************************/
+this.fnCallback = function(svcID, errorCode, errorMsg)
+{
+	if(errorCode < 0){
+		alert("작업 실패 에러 코드 : " + errorCode);
+		return 0;
+	}
+	
+	switch(svcID)
+	{
+		case "insertOrdList":
+			alert("주문 등록 완료");
+			this.close(); 
+			break;
+	}
+};]]></Script>
+    <Objects>
+      <Dataset id="setParam_searchCombo">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="getParam_searchCombo">
+        <ColumnInfo>
+          <Column id="CD_VAL1" type="STRING" size="256"/>
+          <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="getParam_searchItems">
+        <ColumnInfo>
+          <Column id="CD_VAL1" type="STRING" size="256"/>
+          <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="insert_ordList">
+        <ColumnInfo>
+          <Column id="CUST_NM" type="STRING" size="256"/>
+          <Column id="PHONE" type="STRING" size="256"/>
+          <Column id="BIR_BIZ_NO" type="STRING" size="256"/>
+          <Column id="ADDR" type="STRING" size="256"/>
+          <Column id="CUST_GBCD" type="STRING" size="256"/>
+          <Column id="ITEM_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

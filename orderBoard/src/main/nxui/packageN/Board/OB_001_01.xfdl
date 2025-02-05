@@ -11,7 +11,7 @@
         <Static id="sta01_01_00_00" taborder="5" text="생년월일/사업자번호" left="19" top="127" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
         <Edit id="edt_addr" taborder="6" left="178" top="170" width="199" height="33" inputtype="normal"/>
         <Static id="sta01_01_00_00_00" taborder="7" text="주소" left="19" top="168" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
-        <Combo id="cbo_custGbNm" taborder="8" text="" left="179" top="211" width="155" height="35" index="-1" innerdataset="ds_custGbCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1" displaynulltext="선택"/>
+        <Combo id="cbo_custGbNm" taborder="8" text="" left="179" top="211" width="155" height="35" index="-1" innerdataset="ds_custGbCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1" displaynulltext="선택" onitemchanged="cbo_custGbNm_onitemchanged"/>
         <Static id="sta01_00_00" taborder="9" left="44" top="209" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;" text="고객구분"/>
         <Static id="sta01_00_00_00" taborder="10" text="주문상품" left="44" top="254" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
         <Combo id="cbo_itemNm" taborder="11" text="" left="179" top="256" width="155" height="35" index="-1" innerdataset="ds_itemCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1" displaynulltext="선택"/>
@@ -156,6 +156,11 @@ this.fnCallback = function(svcID, errorCode, errorMsg)
 			this.close(); //팝업닫기
 			break;
 	}
+};
+
+this.cbo_custGbNm_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
 };
 ]]></Script>
     <Objects>

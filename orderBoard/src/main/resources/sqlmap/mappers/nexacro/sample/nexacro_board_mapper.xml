@@ -19,8 +19,7 @@
     
     <insert id="insertCust" parameterType="java.util.Map">
             INSERT INTO TB_CUST(
-            	CUST_CD
-            	, CUST_GBCD
+                  CUST_GBCD
             	, CUST_NM
             	, PHONE
             	, BIRTHBISNO
@@ -28,32 +27,29 @@
             	, REG_DT
             	, UPD_DT
             ) VALUES(
-            	CUST_SEQ.NEXTVAL
-            	, #{CUST_GBCD}
+				  #{CUST_GBCD}
             	, #{CUST_NM}
             	, #{PHONE}
             	, #{BIR_BIZ_NO}
             	, #{ADDR}
-            	, SYSDATE
-            	, SYSDATE
+            	, now()
+            	, now()
             )
     </insert>
     
     <insert id="insertOrd" parameterType="java.util.Map">
-            INSERT INTO TB_ORD(
-            	ORD_NO
-            	, ITEM_CD
+            INSERT INTO TB_ORD(          	
+            	  ITEM_CD
             	, CUST_CD
             	, ORD_STAT_CD
             	, REG_DT
             	, UPD_DT
-            ) VALUES(
-            	TO_CHAR(SYSDATE,'YYYYMMDD')|| LPAD(ORDER_SEQ.NEXTVAL,4,'0') 
-            	, #{ITEM_CD}
+            ) VALUES(           	
+            	  #{ITEM_CD}
             	, #{CUST_CD}
             	, 'A'   /*최초 주문등록 시에는 주문대기 상태로 지정*/
-            	, SYSDATE
-            	, SYSDATE
+            	, now()
+            	, now()
             )
     </insert>
     

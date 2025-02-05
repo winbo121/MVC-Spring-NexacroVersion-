@@ -288,12 +288,18 @@
         	}
         };
 
+        this.cbo_custGbNm_onitemchanged = function(obj,e)
+        {
+
+        };
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.OB_001_01_onload,this);
+            this.cbo_custGbNm.addEventHandler("onitemchanged",this.cbo_custGbNm_onitemchanged,this);
             this.btn_regOrd.addEventHandler("onclick",this.btn_regOrd_onclick,this);
             this.btn_exit.addEventHandler("onclick",this.btn_exit_onclick,this);
         };
