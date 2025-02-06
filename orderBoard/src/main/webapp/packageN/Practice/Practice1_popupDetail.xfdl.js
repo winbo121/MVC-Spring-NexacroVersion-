@@ -10,7 +10,7 @@
         this.on_create = function()
         {
             this.set_name("Practice1_popupDetail");
-            this.set_titletext("연습1 팝업 (상세조회)");
+            this.set_titletext("연습1 팝업 (상세조회 및 수정)");
             if (Form == this.constructor)
             {
                 this._setFormPosition(390,360);
@@ -23,7 +23,7 @@
 
 
             obj = new Dataset("getParam_detail", this);
-            obj._setContents("<ColumnInfo><Column id=\"CUST_NM\" type=\"STRING\" size=\"256\"/><Column id=\"PHONE\" type=\"STRING\" size=\"256\"/><Column id=\"BIR_BIZ_NO\" type=\"STRING\" size=\"256\"/><Column id=\"ADDR\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_GBCD_NM\" type=\"STRING\" size=\"256\"/><Column id=\"ITEM_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"CUST_NM\" type=\"STRING\" size=\"256\"/><Column id=\"PHONE\" type=\"STRING\" size=\"256\"/><Column id=\"BIR_BIZ_NO\" type=\"STRING\" size=\"256\"/><Column id=\"ADDR\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_GBCD\" type=\"STRING\" size=\"256\"/><Column id=\"ITEM_CD\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -39,6 +39,11 @@
 
             obj = new Dataset("getParam_searchItems", this);
             obj._setContents("<ColumnInfo><Column id=\"CD_VAL1\" type=\"STRING\" size=\"256\"/><Column id=\"CD_NM1\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("update_ordList", this);
+            obj._setContents("<ColumnInfo><Column id=\"ORD_NO\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_CD\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_NM\" type=\"STRING\" size=\"256\"/><Column id=\"PHONE\" type=\"STRING\" size=\"256\"/><Column id=\"BIR_BIZ_NO\" type=\"STRING\" size=\"256\"/><Column id=\"ADDR\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_GBCD\" type=\"STRING\" size=\"256\"/><Column id=\"ITEM_CD\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -84,12 +89,12 @@
             obj.set_font("14px/normal \"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn00_00","140","291","108","39",null,null,null,null,null,null,this);
+            obj = new Button("closeBtn","232","291","108","39",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("취소");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("ordNo","155","35","210","30",null,null,null,null,null,null,this);
+            obj = new Edit("custNm","155","35","210","30",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             this.addChild(obj.name, obj);
 
@@ -105,7 +110,7 @@
             obj.set_taborder("10");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("custCd","155","199","210","31",null,null,null,null,null,null,this);
+            obj = new Combo("custGbcd","155","199","210","31",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_displaynulltext("선택");
             obj.set_innerdataset("getParam_searchCombo");
@@ -121,13 +126,18 @@
             obj.set_datacolumn("CD_NM1");
             obj.set_text("");
             this.addChild(obj.name, obj);
+
+            obj = new Button("updateBtn","42","291","108","39",null,null,null,null,null,null,this);
+            obj.set_taborder("13");
+            obj.set_text("수정");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",390,360,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","ordNo","value","getParam_detail","CUST_NM");
+            obj = new BindItem("item0","custNm","value","getParam_detail","CUST_NM");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -143,11 +153,11 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item4","custCd","value","getParam_detail","CUST_GBCD_NM");
+            obj = new BindItem("item4","custGbcd","value","getParam_detail","CUST_GBCD");
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item5","itemCd","value","getParam_detail","ITEM_NM");
+            obj = new BindItem("item5","itemCd","value","getParam_detail","ITEM_CD");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -242,6 +252,55 @@
 
         }
 
+
+        this.update_onclick = function(obj,e)
+        {
+
+        	if(
+        	     String(this.custNm.value.trim()).valueOf() == ""
+        	  || String(this.phone.value.trim()).valueOf() == ""
+        	  || String(this.birth.value.trim()).valueOf() == ""
+        	  || String(this.addr.value.trim()).valueOf() == ""
+        	  || String(this.custGbcd.value.trim()).valueOf() == ""
+        	  || String(this.itemCd.value.trim()).valueOf() == ""
+        	){
+        		alert("양식을 채워주세요!");
+        		return;
+        	}
+
+        	this.update_ordList.clearData();
+        	this.update_ordList.addRow();
+        	this.update_ordList.setColumn("0","ORD_NO",this.getOwnerFrame().ordNo);
+        	this.update_ordList.setColumn("0","CUST_CD",this.getOwnerFrame().custCd);
+        	this.update_ordList.setColumn("0","CUST_NM",this.custNm.value);
+        	this.update_ordList.setColumn("0","PHONE",this.phone.value);
+        	this.update_ordList.setColumn("0","BIR_BIZ_NO",this.birth.value);
+        	this.update_ordList.setColumn("0","ADDR",this.addr.value);
+        	this.update_ordList.setColumn("0","CUST_GBCD",this.custGbcd.value);
+        	this.update_ordList.setColumn("0","ITEM_CD",this.itemCd.value);
+
+        	var strSvcId    = "updateDetailOrdList";
+        	var strSvcUrl   = "updateDetailOrdList.do";
+        	var inData      = "update_ordList=update_ordList";
+        	var outData     = "";
+        	var strArg      = "";
+        	var callBackFnc = "fnCallback";
+
+
+        	this.gfnTransaction( strSvcId  ,
+        						 strSvcUrl ,
+        						 inData  ,
+        						 outData ,
+        						 strArg  ,
+        						 callBackFnc);
+
+        };
+
+        this.close_onclick = function(obj,e)
+        {
+        	this.close();
+        };
+
         /**************************************************************************************************
         * CallBack Function (서버수신)
         ***************************************************************************************************/
@@ -254,13 +313,12 @@
 
         	switch(svcID)
         	{
+        		case "updateDetailOrdList":
+        			alert("주문 수정 완료");
+        			this.getOwnerFrame().searchBtn.click();
+        			this.close();
+        			break;
         	}
-        };
-
-
-        this.btn00_00_onclick = function(obj,e)
-        {
-        	this.close();
         };
 
 
@@ -271,8 +329,9 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Practice1_popupDetail_onload,this);
-            this.btn00_00.addEventHandler("onclick",this.btn00_00_onclick,this);
+            this.closeBtn.addEventHandler("onclick",this.close_onclick,this);
             this.itemCd.addEventHandler("onitemchanged",this.cbo00_00_onitemchanged,this);
+            this.updateBtn.addEventHandler("onclick",this.update_onclick,this);
         };
         this.loadIncludeScript("Practice1_popupDetail.xfdl");
         this.loadPreloadList();

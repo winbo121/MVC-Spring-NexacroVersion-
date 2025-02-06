@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Practice1_popupDetail" width="390" height="360" titletext="연습1 팝업 (상세조회)" onload="Practice1_popupDetail_onload">
+  <Form id="Practice1_popupDetail" width="390" height="360" titletext="연습1 팝업 (상세조회 및 수정)" onload="Practice1_popupDetail_onload">
     <Layouts>
       <Layout height="360" width="390">
         <Static id="sta01_01" taborder="0" text="고객명" left="-1" top="35" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
@@ -9,13 +9,14 @@
         <Static id="sta01_01_00_00_00" taborder="3" text="주소" left="-1" top="158" width="146" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
         <Static id="sta01_00_00" taborder="4" left="24" top="199" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;" text="고객구분"/>
         <Static id="sta01_00_00_00" taborder="5" text="주문상품" left="24" top="240" width="96" height="34" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
-        <Button id="btn00_00" taborder="6" text="취소" left="140" top="291" width="108" height="39" onclick="btn00_00_onclick"/>
-        <Edit id="ordNo" taborder="7" left="155" top="35" width="210" height="30"/>
+        <Button id="closeBtn" taborder="6" text="취소" left="232" top="291" width="108" height="39" onclick="close_onclick"/>
+        <Edit id="custNm" taborder="7" left="155" top="35" width="210" height="30"/>
         <Edit id="phone" taborder="8" left="155" top="78" width="210" height="30"/>
         <Edit id="birth" taborder="9" left="155" top="120" width="210" height="30"/>
         <Edit id="addr" taborder="10" left="155" top="158" width="210" height="30"/>
-        <Combo id="custCd" taborder="11" left="155" top="199" width="210" height="31" displaynulltext="선택" innerdataset="getParam_searchCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1"/>
+        <Combo id="custGbcd" taborder="11" left="155" top="199" width="210" height="31" displaynulltext="선택" innerdataset="getParam_searchCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1"/>
         <Combo id="itemCd" taborder="12" text="" left="155" top="240" width="210" height="31" onitemchanged="cbo00_00_onitemchanged" displaynulltext="선택" innerdataset="getParam_searchItems" codecolumn="CD_VAL1" datacolumn="CD_NM1"/>
+        <Button id="updateBtn" taborder="13" text="수정" left="42" top="291" width="108" height="39" onclick="update_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -30,8 +31,8 @@
           <Column id="PHONE" type="STRING" size="256"/>
           <Column id="BIR_BIZ_NO" type="STRING" size="256"/>
           <Column id="ADDR" type="STRING" size="256"/>
-          <Column id="CUST_GBCD_NM" type="STRING" size="256"/>
-          <Column id="ITEM_NM" type="STRING" size="256"/>
+          <Column id="CUST_GBCD" type="STRING" size="256"/>
+          <Column id="ITEM_CD" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="setParam_searchCombo">
@@ -49,6 +50,18 @@
         <ColumnInfo>
           <Column id="CD_VAL1" type="STRING" size="256"/>
           <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="update_ordList">
+        <ColumnInfo>
+          <Column id="ORD_NO" type="STRING" size="256"/>
+          <Column id="CUST_CD" type="STRING" size="256"/>
+          <Column id="CUST_NM" type="STRING" size="256"/>
+          <Column id="PHONE" type="STRING" size="256"/>
+          <Column id="BIR_BIZ_NO" type="STRING" size="256"/>
+          <Column id="ADDR" type="STRING" size="256"/>
+          <Column id="CUST_GBCD" type="STRING" size="256"/>
+          <Column id="ITEM_CD" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
@@ -132,6 +145,55 @@ this.detail = function(){
 
 }
 
+
+this.update_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+
+	if(
+	     String(this.custNm.value.trim()).valueOf() == ""
+	  || String(this.phone.value.trim()).valueOf() == ""
+	  || String(this.birth.value.trim()).valueOf() == ""
+	  || String(this.addr.value.trim()).valueOf() == ""
+	  || String(this.custGbcd.value.trim()).valueOf() == ""
+	  || String(this.itemCd.value.trim()).valueOf() == ""
+	){
+		alert("양식을 채워주세요!");
+		return;
+	}
+	
+	this.update_ordList.clearData();
+	this.update_ordList.addRow();
+	this.update_ordList.setColumn("0","ORD_NO",this.getOwnerFrame().ordNo);
+	this.update_ordList.setColumn("0","CUST_CD",this.getOwnerFrame().custCd);
+	this.update_ordList.setColumn("0","CUST_NM",this.custNm.value);
+	this.update_ordList.setColumn("0","PHONE",this.phone.value);
+	this.update_ordList.setColumn("0","BIR_BIZ_NO",this.birth.value);
+	this.update_ordList.setColumn("0","ADDR",this.addr.value);
+	this.update_ordList.setColumn("0","CUST_GBCD",this.custGbcd.value);
+	this.update_ordList.setColumn("0","ITEM_CD",this.itemCd.value);
+	
+	var strSvcId    = "updateDetailOrdList";                
+	var strSvcUrl   = "updateDetailOrdList.do";           
+	var inData      = "update_ordList=update_ordList";       												                                               
+	var outData     = "";  													
+	var strArg      = "";                               
+	var callBackFnc = "fnCallback"; 
+	
+	                              
+	this.gfnTransaction( strSvcId  , 	
+						 strSvcUrl , 	
+						 inData  , 		
+						 outData , 		
+						 strArg  , 		
+						 callBackFnc);
+	
+};
+
+this.close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
 /**************************************************************************************************
 * CallBack Function (서버수신)
 ***************************************************************************************************/
@@ -144,24 +206,23 @@ this.fnCallback = function(svcID, errorCode, errorMsg)
 	
 	switch(svcID)
 	{
+		case "updateDetailOrdList":
+			alert("주문 수정 완료");
+			this.getOwnerFrame().searchBtn.click();
+			this.close(); 
+			break;
 	}
-};
-
-
-this.btn00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	this.close();
 };
 
 
 ]]></Script>
     <Bind>
-      <BindItem id="item0" compid="ordNo" propid="value" datasetid="getParam_detail" columnid="CUST_NM"/>
+      <BindItem id="item0" compid="custNm" propid="value" datasetid="getParam_detail" columnid="CUST_NM"/>
       <BindItem id="item1" compid="phone" propid="value" datasetid="getParam_detail" columnid="PHONE"/>
       <BindItem id="item2" compid="birth" propid="value" datasetid="getParam_detail" columnid="BIR_BIZ_NO"/>
       <BindItem id="item3" compid="addr" propid="value" datasetid="getParam_detail" columnid="ADDR"/>
-      <BindItem id="item4" compid="custCd" propid="value" datasetid="getParam_detail" columnid="CUST_GBCD_NM"/>
-      <BindItem id="item5" compid="itemCd" propid="value" datasetid="getParam_detail" columnid="ITEM_NM"/>
+      <BindItem id="item4" compid="custGbcd" propid="value" datasetid="getParam_detail" columnid="CUST_GBCD"/>
+      <BindItem id="item5" compid="itemCd" propid="value" datasetid="getParam_detail" columnid="ITEM_CD"/>
     </Bind>
   </Form>
 </FDL>

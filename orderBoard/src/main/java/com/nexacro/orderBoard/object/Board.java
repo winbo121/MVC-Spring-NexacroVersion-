@@ -1,6 +1,7 @@
 package com.nexacro.orderBoard.object;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <pre>
@@ -28,6 +29,7 @@ public class Board extends NexacroBase {
 	private String communityId;
 	private String hitCount;
 	private Date regDate;
+	private List<String> delList;
 
 	/**
 	 * @return the title
@@ -132,6 +134,14 @@ public class Board extends NexacroBase {
 	 */
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+
+	public List<String> getDelList() {
+		return delList;
+	}
+
+	public void setDelList(List<String> delList) {
+		this.delList = delList;
 	}
 
 }

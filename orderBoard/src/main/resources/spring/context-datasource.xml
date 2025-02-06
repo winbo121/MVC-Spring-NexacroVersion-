@@ -15,7 +15,7 @@
      -->
      <bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
      	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-     	<property name="url" value="jdbc:mysql://127.0.0.1:3306/home?useSSL=false&amp;serverTimezone=UTC" />
+     	<property name="url" value="jdbc:mysql://127.0.0.1:3306/home?useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true" />
      	<property name="username" value="root"/>
      	<property name="password" value="123456"/>
 	 </bean>

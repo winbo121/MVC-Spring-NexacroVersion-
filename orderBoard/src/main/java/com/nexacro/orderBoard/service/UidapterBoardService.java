@@ -1,9 +1,11 @@
 package com.nexacro.orderBoard.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nexacro.orderBoard.object.Board;
 
@@ -48,4 +50,8 @@ public interface UidapterBoardService {
 	int selectUserCount();
 	
 	Map<String,Object> selectOrdListDetail(Map<String, Object> ord_no);
+	
+	void updateDetailOrdList(Map<String, Object> update_ordList);
+	
+	void delOrdList(Board board);
 }

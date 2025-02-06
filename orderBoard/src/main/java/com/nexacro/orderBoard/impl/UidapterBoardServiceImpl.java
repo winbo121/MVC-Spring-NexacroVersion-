@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nexacro.java.xapi.data.DataSet;
 import com.nexacro.orderBoard.mapper.UiadapterBoardMapper;
@@ -158,5 +159,17 @@ public class UidapterBoardServiceImpl implements UidapterBoardService {
 	public Map<String, Object> selectOrdListDetail(Map<String, Object> ord_no) {
 		UiadapterBoardMapper mapper = sqlSession.getMapper(UiadapterBoardMapper.class);
 		return mapper.selectOrdListDetail(ord_no);
+	}
+
+	@Override
+	public void updateDetailOrdList(Map<String, Object> update_ordList) {
+		UiadapterBoardMapper mapper = sqlSession.getMapper(UiadapterBoardMapper.class);
+		mapper.updateDetailOrdList(update_ordList);
+	}
+
+	@Override
+	public void delOrdList(Board board) {
+		UiadapterBoardMapper mapper = sqlSession.getMapper(UiadapterBoardMapper.class);
+		mapper.delOrdList(board);
 	}
 }

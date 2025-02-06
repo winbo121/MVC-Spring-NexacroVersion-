@@ -1,7 +1,7 @@
 package com.nexacro.orderBoard.mapper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -63,4 +63,8 @@ public interface UiadapterBoardMapper {
 	public int selectUserCount();
 	
 	public Map<String,Object> selectOrdListDetail(Map<String, Object> ord_no);
+	
+	public void updateDetailOrdList(Map<String, Object> update_ordList);
+	
+	public void delOrdList(Board board);
 }

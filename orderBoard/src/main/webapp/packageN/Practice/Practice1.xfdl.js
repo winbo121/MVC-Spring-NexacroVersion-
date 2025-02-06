@@ -35,6 +35,11 @@
             obj = new Dataset("getParam_searchList", this);
             obj._setContents("<ColumnInfo><Column id=\"ORD_NO\" type=\"STRING\" size=\"256\"/><Column id=\"ORD_STAT_NM\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_NO\" type=\"STRING\" size=\"256\"/><Column id=\"CUST_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("setParam_delList", this);
+            obj._setContents("<ColumnInfo><Column id=\"ORD_NO\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Static("sta00","25","23","155","51",null,null,null,null,null,null,this);
@@ -78,12 +83,18 @@
             obj = new Grid("grd00","30","129","691","262",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_binddataset("getParam_searchList");
+            obj.set_selecttype("multirow");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"186\"/><Column size=\"148\"/><Column size=\"204\"/><Column size=\"153\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"주문번호\"/><Cell col=\"1\" text=\"주문상태\"/><Cell col=\"2\" text=\"고객번호\"/><Cell col=\"3\" text=\"고객명\"/></Band><Band id=\"body\"><Cell text=\"bind:ORD_NO\"/><Cell col=\"1\" text=\"bind:ORD_STAT_NM\"/><Cell col=\"2\" text=\"bind:CUST_NO\"/><Cell col=\"3\" text=\"bind:CUST_NM\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn00","33","90","117","24",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("주문등록");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("delBtn","180","89","116","26",null,null,null,null,null,null,this);
+            obj.set_taborder("6");
+            obj.set_text("주문삭제");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -156,7 +167,8 @@
         //주문조회 팝업
         this.btn00_onclick = function(obj,e)
         {
-        	var oArg = {};//팝업을 열 때 부모창에서 가져갈 데이터가 있데면 데이터 세팅
+        	var searchBtn =  this.practice_search
+        	var oArg = {searchBtn:searchBtn};//팝업을 열 때 부모창에서 가져갈 데이터가 있데면 데이터 세팅
         	              //주문등록시에는 가져갈 데이터가 없으므로 공란으로 지정
         	              //ex) paramTitle:"가나다라", paramCode:"abcd", paramNum:12345
         	var oOption = {};	//top, left를 지정하지 않으면 가운데정렬 //"top=20,left=370"
@@ -171,13 +183,57 @@
         	//alert("주문 수정 팝업 오픈");
         	//그리드에서 현재 선택된 ROW의 ORD_NO 주문번호를 가져온다.
         	var ordNo = this.getParam_searchList.getColumn(this.getParam_searchList.rowposition,"ORD_NO");
+        	var custCd = this.getParam_searchList.getColumn(this.getParam_searchList.rowposition,"CUST_NO");
+        	var searchBtn =  this.practice_search
 
-        	var oArg = {ordNo:ordNo};
+        	var oArg = {ordNo:ordNo , custCd:custCd, searchBtn:searchBtn};
         	var oOption = {};
         	var sPopupCallBack = "fnPopupCallback";
         	this.gfnOpenPopup( "popup","Practice::Practice1_popupDetail.xfdl",oArg,sPopupCallBack,oOption);
 
+
         }
+
+        //리스트중 드래그해서 여러개 삭제 기능
+        this.delBtn_onclick = function(obj,e)
+        {
+        	var ds = this.getParam_searchList;  // 대상 Dataset
+        	var grid = this.grd00;  // 대상 Grid
+
+        	var selectedRows = grid.getSelectedRows();  // 선택된 행들의 인덱스 배열
+
+        	trace("선택된 행 개수: " + selectedRows.length);
+
+        	if(selectedRows.length == 0){
+        		alert("삭제 할 로우를 선택하세요");
+        		return;
+        	}
+
+        	this.setParam_delList.clearData();
+
+        	for (var i = 0; i < selectedRows.length; i++) {
+        		var row = selectedRows[i];
+        		trace("선택된 행의 데이터: " + ds.getColumn(row, "CUST_NM"));
+        		this.setParam_delList.addRow();
+        		this.setParam_delList.setColumn(i,"ORD_NO",ds.getColumn(row, "ORD_NO"));
+        	}
+
+        	var strSvcId    = "delOrdList";
+        	var strSvcUrl   = "delOrdList.do";
+        	var inData      = "setParam_delList=setParam_delList";
+        	var outData     = "";
+        	var strArg      = "";
+        	var callBackFnc = "fnCallback";
+
+        	this.gfnTransaction( strSvcId  ,
+        						 strSvcUrl ,
+        						 inData  ,
+        						 outData ,
+        						 strArg  ,
+        						 callBackFnc);
+
+        };
+
 
 
         /**************************************************************************************************
@@ -197,10 +253,15 @@
         			this.getParam_searchCombo.setColumn(0,"CD_VAL1","");
         			this.getParam_searchCombo.setColumn(0,"CD_NM1","전체");
         			break;
-
+        		case "delOrdList":
+        			alert("삭제완료");
+        			this.practice_search.click();
         	}
 
         }
+
+
+
         });
         
         // Regist UI Components Event
@@ -211,6 +272,7 @@
             this.practice_search.addEventHandler("onclick",this.practice_search_onclick,this);
             this.grd00.addEventHandler("oncelldblclick",this.detailView,this);
             this.btn00.addEventHandler("onclick",this.btn00_onclick,this);
+            this.delBtn.addEventHandler("onclick",this.delBtn_onclick,this);
         };
         this.loadIncludeScript("Practice1.xfdl");
         this.loadPreloadList();

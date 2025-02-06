@@ -107,11 +107,11 @@
      			 , MST.CD_NM1      						  AS ORD_STAT_NM
      			 , ORD.CUST_CD                            AS CUST_NO
      			 , CUST.CUST_NM                           AS CUST_NM
-     			 , CUST.CUST_GBCD                         AS CUST_GBCD_NM
+     			 , CUST.CUST_GBCD                         AS CUST_GBCD
      			 , CUST.PHONE                             AS PHONE
      			 , CUST.ADDR                              AS ADDR
      			 , CUST.BIRTHBISNO						  AS BIR_BIZ_NO
-     			 , ITEM.ITEM_CD                           AS ITEM_NM
+     			 , ITEM.ITEM_CD                           AS ITEM_CD
      			 , ORD.REG_DT                             AS REG_DT
   			 FROM TB_ORD ORD
   			 LEFT JOIN TB_CUST CUST ON ORD.CUST_CD = CUST.CUST_CD
@@ -121,6 +121,30 @@
              AND ORD.ORD_NO = #{ORD_NO}           
     </select>
     
+    <update id="updateDetailOrdList" parameterType="com.nexacro.orderBoard.object.Board">
+		
+		    UPDATE TB_CUST 
+               SET CUST_NM       = #{CUST_NM}
+                 , PHONE       = #{PHONE}
+                 , BIRTHBISNO    = #{BIR_BIZ_NO}
+                 , ADDR = #{ADDR}
+                 , CUST_GBCD = #{CUST_GBCD}
+                 , UPD_DT = NOW()
+            WHERE CUST_CD=#{CUST_CD};
+			
+			UPDATE TB_ORD
+               SET ITEM_CD = #{ITEM_CD}
+             WHERE ORD_NO = #{ORD_NO}
+			
+    </update>
+    
+    <delete id="delOrdList" parameterType="com.nexacro.orderBoard.object.Board">
+    	DELETE FROM TB_ORD
+    	WHERE ORD_NO IN
+    	<foreach collection="delList" item="index" open="(" close=")" separator=",">
+				 #{index}
+		</foreach>
+    </delete>
     
     <select id="selectCommonCode" parameterType="java.util.Map" resultType="java.util.Map">
             SELECT CD_VAL1
@@ -148,13 +172,8 @@
             insert into tbl_board(title, regId, contents, communityId) values (#{title}, #{regId}, #{contents}, #{communityId} )
     </insert>
     
-      <update id="update_board" parameterType="com.nexacro.orderBoard.object.Board">
-            update tbl_board 
-               set title       = #{title}
-                 , regId       = #{regId}
-                 , contents    = #{contents}
-                 , communityId = #{communityId}
-            where postId=#{postId}
+    <update id="update_board" parameterType="com.nexacro.orderBoard.object.Board">
+
     </update>
     
     <delete id="delete_board" parameterType="com.nexacro.orderBoard.object.Board">

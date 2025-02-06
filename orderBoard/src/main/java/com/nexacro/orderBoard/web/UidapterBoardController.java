@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.nexacro.java.xapi.data.DataSet;
 import com.nexacro.java.xapi.data.DataSetList;
@@ -73,6 +73,16 @@ public class UidapterBoardController {
 		
 	}
 	
+	@RequestMapping(value = "/orderBoard/updateDetailOrdList.do")
+	public NexacroResult updateDetailOrdList(@ParamDataSet(name = "update_ordList") Map<String,Object> update_ordList) throws NexacroException {
+		 
+		NexacroResult result = new NexacroResult(); // return 값을 세팅하기 위한 객체 생성
+		uidapterSampleService.updateDetailOrdList(update_ordList); // 요청 처리를 Service로 이관
+		
+		return result; //회신
+		
+	}
+	
 	@RequestMapping(value = "/orderBoard/insertOrdList.do")
 	public NexacroResult insertOrdList(@ParamDataSet(name = "ds_regOrd") Map<String,Object> ds_regOrd) throws NexacroException {
 		 
@@ -121,6 +131,28 @@ public class UidapterBoardController {
 		return result; //회신
 		
 	}
+	
+	@RequestMapping(value = "/orderBoard/delOrdList.do")
+	public NexacroResult delOrdList(@ParamDataSet(name = "setParam_delList") DataSet setParam_delList) throws NexacroException {
+		 
+		NexacroResult result = new NexacroResult(); // return 값을 세팅하기 위한 객체 생성
+		List<String> del_List = new ArrayList<String>(); //return 값 ds_ordStatCombo 객체 생성
+		
+		for (int i = 0; i < setParam_delList.getRowCount(); i++) {			
+			System.out.println("삭제 되어야 할 ORD_NO : "+setParam_delList.getString(i, "ORD_NO"));
+			del_List.add(setParam_delList.getString(i, "ORD_NO"));
+		}
+		
+		Board board = new Board();
+		
+		board.setDelList(del_List);
+		
+		uidapterSampleService.delOrdList(board);
+		
+		return result; //회신
+		
+	}
+	
 	
 	@RequestMapping(value = "/orderBoard/selectCommonCode.do")
 	public NexacroResult selectCommonCode(@ParamDataSet(name = "ds_search") Map<String,Object> ds_search) throws NexacroException {

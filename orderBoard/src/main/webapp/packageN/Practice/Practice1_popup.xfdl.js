@@ -89,7 +89,7 @@
             obj.set_text("취소");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("ordNo","155","35","210","30",null,null,null,null,null,null,this);
+            obj = new Edit("custNm","155","35","210","30",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             this.addChild(obj.name, obj);
 
@@ -194,9 +194,36 @@
 
         this.btn00_onclick = function(obj,e)
         {
+
+        	if(
+        	     String(this.custNm.value).valueOf() == "undefined"
+        	  || String(this.phone.value).valueOf() == "undefined"
+        	  || String(this.birth.value).valueOf() == "undefined"
+        	  || String(this.addr.value).valueOf() == "undefined"
+        	  || String(this.custCd.value).valueOf() == "undefined"
+        	  || String(this.itemCd.value).valueOf() == "undefined"
+        	){
+        		alert("양식을 채워주세요!");
+        		return;
+        	}
+
+        	if(
+        	     String(this.custNm.value.trim()).valueOf() == ""
+        	  || String(this.phone.value.trim()).valueOf() == ""
+        	  || String(this.birth.value.trim()).valueOf() == ""
+        	  || String(this.addr.value.trim()).valueOf() == ""
+        	  || String(this.custCd.value.trim()).valueOf() == ""
+        	  || String(this.itemCd.value.trim()).valueOf() == ""
+        	){
+        		alert("양식을 채워주세요!");
+        		return;
+        	}
+
+
+
         	this.insert_ordList.clearData();
         	this.insert_ordList.addRow();
-        	this.insert_ordList.setColumn(0,"CUST_NM",this.ordNo.value);
+        	this.insert_ordList.setColumn(0,"CUST_NM",this.custNm.value);
         	this.insert_ordList.setColumn(0,"PHONE",this.phone.value);
         	this.insert_ordList.setColumn(0,"BIR_BIZ_NO",this.birth.value);
         	this.insert_ordList.setColumn(0,"ADDR",this.addr.value);
@@ -209,6 +236,7 @@
         	var outData = "";
         	var strArg = "";
         	var callBackFnc = "fnCallback";
+
         	this.gfnTransaction( strSvcId  ,
         						 strSvcUrl ,
         						 inData  ,
@@ -237,6 +265,7 @@
         	{
         		case "insertOrdList":
         			alert("주문 등록 완료");
+        			this.getOwnerFrame().searchBtn.click();
         			this.close();
         			break;
         	}
